@@ -47,8 +47,6 @@
   ```
 
   - manage.py는 django-admin처럼 동작하는 커맨드라인 유틸리티다.
-  - 구체적으로 manage.py를 통해 django프로젝트의 앱을 생성하거나 `$ python manage.py startapp appname` , 모델(장고 데이터베이스) 구조를 만들고 저장하거나 `$ python manage.py makemigrations`, `$ python manage.py migrate`, 개발서버를 구동하고 `$ python manage.py runserver` shell모드를 키는 `$ python manage.py shell`등을 할 수 있다.
-
   - urls.py는 장고 프로젝트에서 사용하게 될 url들을 선언하고 해당 url로 요청이 들어올시 어떻게 처리할 것인지 설정할 수 있다.
 
 - django 프로젝트 개발 서버 시작하기
@@ -150,7 +148,7 @@
   class Post(models.Model): 
     title = models.CharField(max_length=25)
     content = models.TextField()
-    image = models.ImageField()
+    image = models.ImageField(blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
   ```
@@ -163,6 +161,7 @@
     - 자료 변수명은 데이터베이스에서 칼럼명으로 사용됨.
     -  Field 인스턴스의 이름을 설정하고 싶다면 
       `content = models.TextField('content of post')`와 같이 첫번째 위치 인자로 Field 인스턴스의 이름 전달
+    - ImageField의 인자로 `blank=True`을 전달하기 때문에, 빈 값이 허용될 수 있음.
 
   
 
@@ -265,7 +264,7 @@
   class Post(models.Model): 
     title = models.CharField(max_length=25)
     content = models.TextField()
-    image_url = models.CharField(max_length=300)
+    image = models.ImageField(blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
   
@@ -303,11 +302,34 @@
   -  `$ python manage.py shell`는 django에서 동작하는 모든 명령을 대화식 phython shell에서 그대로 실행할 수 있음
 
   ```shell
-  >>> from blog.models import Post, Comment
+  >>> from blog.models import Post 
+  # models.py의 Post 클래스 객체를 가져온다
   >>> Post.objects.all()
   <QuerySet []>
-  >>> article = Post()
+  # Post클래스의 모든 인스턴스들을 가져오는 명령어. 현재 생성된 인스턴스가 없기 때문에 쿼리셋은 비어있다.
+>>> article = Post(title="title", content="content")
+  # Post클래스의 인스턴스로 article을 생성하는데, created_at과 updated_at은 자동으로 생성되고, image는 빈 값도 허용되기 때문에 title과 content만 지정해도 생성된다.
+  >>> article.save()
+  # 명시적으로 저장을 해줘야 데이터베이스의 Post 테이블에 article 튜플이 저장된다. 
+  >>> article.id
+  1
+  # article의 id
+  >>> article.title
+  title
+  >>> article.title = "newtitle"
+  >>> article.save()
+  >>> Post.objects.all()
+  <querySet [<Question: Question object (1)>]
+  >>> Post.objects.filter(id=1)
+  <querySet [<Question: Question object (1)>]
+  >>> Post.objects.get(pk=1)
+  <querySet [<Question: Question object (1)>]
+  >>> Post.objects.first()
+  <querySet [<Question: Question object (1)>]
+  >>> Post.objects.last()
+  <querySet [<Question: Question object (1)>]
+  >>> article.delete()
   ```
-
   
+  - models.py의 Post 클래스 객체를 가져오기 위해 
 
