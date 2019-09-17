@@ -1,0 +1,72 @@
+/* div {
+  margin: 30px;
+} */
+/* #위아래와 양옆은 같이 움직이는 경향, 그래서 그둘을 분리해주고 싶을 때는
+div {
+  margin: 16px 0px 16px 0px;
+}
+/* 뒤에 둘은 안써도 된다. */
+/* div {
+  margin-right: auto;
+} */
+/* 정렬을 해주고 싶을 때 */
+/* 근데 우린 플렉스를 사용할 것이기 때문에 이렇게 일일이 코드를 짜진 않을 것이다 */
+/* div {
+  padding: 10px 10px
+} */
+/* 보더는 여러 값을 지정해줘야한다. */
+/* div {
+  border-width: 2px;
+  border-style: solid;
+  border-color: palevioletred;
+} */ 
+/* 이모든걸 하나에 다 넣어줘도 된다. */
+/* div {
+  /* margin-right: auto;
+  margin: 16px 0px 16px 0px;
+  padding: 10px 10px;
+  border: 2px solid black }/ */
+/* border에서 스타일은 반드시써줘야한다. */
+.hidden{
+  visibility:hidden
+}
+.none {
+  display: None;
+}
+.inline-block {
+  display: inline-block;
+  margin: 10px;
+  height: 100px;
+  width: 100px;
+}
+
+div{
+  height: 200px;
+  width: 100px;
+  margin-right: auto;
+  margin-left: auto;
+  display: block;
+  background-color: whitesmoke;
+  text-align: center;
+  line-height: 150px;
+  letter-spacing: 10px
+
+}
+/* 블락인 애들은 display: block을 디폴트값으로 가지고 있는 것
+inline이라고 하면 인라인처럼. 인라인요소는 공간적 크기 조절을 할 수가 없다.
+display:flex도 있다. 나중에 할 것 */
+a {
+  margin-left: 10px;
+  margin-right: 10px;
+  padding-left: 10px;
+  padding-right: 10px;
+  line-height: 50px;
+}
+.odd{
+  background-color: bisque
+}
+.even{
+}
+#zero{
+  background-color: royalblue
+}

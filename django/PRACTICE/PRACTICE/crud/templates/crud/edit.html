@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block body %}
+
+<form action="/crud/{{ article.id }}/update/", method="GET">
+  <p>title : <input type="text" value="{{ article.title }}" name="title" id="title"></p>
+  <textarea name="content" id="content" cols="30" rows="10">{{ article.content }}</textarea>
+  <p>이미지 url: <input type="text" value="{{ crud.image_url }}" id="image_url" name="image_url"></p>
+  <button type="submit">수정하기</button>
+</form>
+
+{% endblock %}

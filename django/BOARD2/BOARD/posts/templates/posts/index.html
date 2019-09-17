@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block body %}
+
+  <h1 class="text-center my-3">BLOG TEMPLATE</h1>
+  <div class="d-flex justify-content-center">
+    <img src="https://cdn.pixabay.com/photo/2015/06/08/15/11/umbrella-801918_960_720.jpg" alt="arbitrary blog image" style="max-width: 30%">
+  </div>
+  <h2 class="text-center my-5">Articles</h2>
+  <div class="container">
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th scope="col">id</th>
+          <th scope="col">title</th>
+          <th scope="col">created_at</th>
+          <th scope="col">updated_at</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for article in articles %}
+        <tr>
+          <th scope="row">{{ article.id }}</th>
+          <td><a href="{% url 'posts:detail' article.id %}">{{ article.title }}</a></td>
+          <td>{{ article.created_at }}</td>
+          <td>{{ article.updated_at }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  
+
+{% endblock %}

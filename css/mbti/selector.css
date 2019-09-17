@@ -1,0 +1,31 @@
+ol {
+    background: whitesmoke;
+}
+
+ol>li {
+    color: black;
+}
+
+ol>li:nth-last-child(1) {
+    color: rosybrown
+}
+/* 
+ol>li:nth-child(6) {
+    color: rosybrown
+} 
+> 이 오퍼레이터는 자식만. 그러니까 후손은 잡지 못한다.
+후손을 원한다면 그냥 스페이스를 하면, 후손중에 있기만 하면 속성 설정이 가능하게된다.
+*/
+
+#ssafy> h2:nth-child(1) {
+    color : red;
+} 
+
+
+#ssafy > p:nth-of-type(2) {
+    color: blue;
+}
+
+div span {
+    color: brown;
+}

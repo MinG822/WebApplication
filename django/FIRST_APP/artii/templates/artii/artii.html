@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% block body %}
+<h1>askii art</h1>
+<form action="/artii/result/" method="GET">
+  원하는 단어를 입력해 주세요 : <input type="text" name="word">
+  <p>원하는 폰트를 선택해 주세요</p>
+  <select name="fonts">
+    <option value="computer">computer</option>
+    <option value="trashman">trashman</option>
+    <option value="banner">banner</option>
+    <option value="basic">basic</option>
+  </select>
+  <input type="submit">
+</form>
+{% endblock %}
+

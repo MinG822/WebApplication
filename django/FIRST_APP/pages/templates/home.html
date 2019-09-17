@@ -1,0 +1,57 @@
+
+  {% extends 'base.html' %}
+  {% block body %}
+
+  <h1>DTL(Django Template Language) 관련 문법</h1>
+  <ul>
+    <li>for</li>
+    <li>if</li>
+    <li>helper/ filter</li>
+    <li></li>
+  </ul>
+
+  <h2>데이터를 넘겨받는 법{{data}}</h2>
+  {% for item in data %}
+    <p> {{ forloop.counter }} : {{item}} </p>
+  {% endfor %}
+
+  <h2>데이터가 없을 때,</h2>
+  {% for movie in empty_data %}
+    <p>{{movie}}</p>
+<!-- len==0일때 의 느낌. 빈데이터일 때 의 조건문을 걸어주는 것 -->
+  {% empty %}
+    <p> 영화 데이터가 없습니다. </p>
+  {% endfor %}
+
+  <h2>2중 for문</h2>
+  {% for array in matrix %}
+    {% for num in array %}
+      <p>{{num}}</p>
+    {% endfor %}
+  {% endfor %}
+
+<!-- 만약 매트릭스형 자료가 있을 때는 위와 같이 이중 for문을 쓸 수 있다. -->
+<!-- 2중 for문 구조에서 forloop.counter의 위치에 따른 차이는?-->
+
+  <h2>다양한 helper / filter</h2>
+  <h3>helper(built in tag)</h3>
+  {% lorem 5 p random %}
+
+  <h3>filter</h3>
+  <h4>str</h4>
+  {% for item in data%}
+    {{ item|length }}
+    {{ item|truncatechars:1 }}
+  {% endfor %}
+  <!-- item의 길이가 나옴 띄어쓰기 포함 -->
+  <!-- truncatechars:1 은 1의 길이만큼만 나오도록함. 넘쳐흘러가는걸 방지하기 위해서 줄여버린다. ... 으로 끝나는데 ... 을 한글자로 포함해서 보여줌. 보여지는 컨텐츠를  -->
+  <!-- https://docs.djangoproject.com/en/2.2/ref/templates/builtins/#truncatechars -->
+
+  <h4>int</h4>
+  {{number|add:20}}
+  <!-- 계산은 template에서 하지 말자. 최대한 views에서 처리를 하고 보내주기. 가장 중요한 대원칙 중 하나 model fat. 코드를 모델에 가장 많이 두겠다. -->
+
+  <h4> datetime </h4>
+  {% now "Y d M D h:m e"%}
+  
+{% endblock %}

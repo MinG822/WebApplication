@@ -1,0 +1,44 @@
+div {
+  height: 100px;
+  width: 100px;
+  background-color:plum;
+  line-height: 100px;
+  text-align: center;
+  color: #030303;
+}
+.relative {
+  position: relative;
+  top: 100px;
+  left: 100px;
+  z-index: 100;
+}
+.overlap {
+  position: relative;
+  left: 100px;
+}
+.absolute {
+  position: absolute;
+  left: 108px;
+  top: 208px;
+}
+.fixed {
+  position: fixed;
+  bottom: 0px;
+  right: 0px;
+  z-index: 300;
+}
+.box1 {
+  background-color: red
+}
+.box2 {
+  background-color: orange
+}
+.box3 {
+  background-color: peru
+}
+.box4 {
+  background-color: royalblue  
+}
+.box5 {
+  background-color:purple
+}

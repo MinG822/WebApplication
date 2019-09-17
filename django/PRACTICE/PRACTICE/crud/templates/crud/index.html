@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block body %}
+
+<p>이 파일은 crud 앱의 index.html 파일이며 접근할 수 있는 url은 crud/index입니다.</p>
+
+<table>
+  {% for a in article %}
+  <tr>
+    <th>{{ a.id }}</th>
+    <th><a href="/crud/{{ a.id }}/">{{ a.title }}</a></th>
+    <th>{{ a.created_at }}</th>
+    <th>{{ a.updated_at }}</th>
+  </tr>
+  {% endfor %}
+</table>
+
+{% endblock %}

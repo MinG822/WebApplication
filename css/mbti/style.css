@@ -1,0 +1,54 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+/* p태그를 만들면 항상 마진이 16이 생긴다. 이걸 전체 초기화해줌 */
+/* 복합선택자 compound selector */
+section ul {
+    margin: 10px 0px;
+}
+
+section>ul>li {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+a + ul {
+    background-color: peachpuff
+}
+/* +는 같은레벨에 있는 시블링을 뜻한다. */
+
+a ~ ul {
+    border: solid darkgray 1px;
+}
+/* ~는 다음에오는 모든 형제들을 뜻한다 */
+
+/* 속성셀렉터 스크래핑할 때 많이 이용된다 주소들만 긁어오고싶을 때 등 */
+a[target="_blank"] {
+    border: solid 2px black;
+    border-radius: 5px;
+    padding: 5px;
+}
+/* 링크를 눌러서 새로운 탭에서 열고 싶을 때 a태그의 속성 target = "_blank"라고 설정해주면 된다. */
+
+ul[class]>li {
+    width: 22%;
+    height: 50px;
+    display: inline-block;
+}
+
+/* 속성자체를 가지고 있는 애들만 뽑아쓸 때에도 이렇게 쓸 수 있다. */
+/* 보통 중앙정렬같은 걸 할 때 양옆의 마진을 가지고 해줬는데, 이경우에는 왼쪽 정렬되어있고 마진이 없기 때문에 이방법 못함. 패딩을 가지고 조정하는 수밖에 없음 */
+
+.me {
+    background-color : black;
+}
+
+img[alt$="TYPE"] {
+
+}
+/* 정규표현식을 빡세게 쓰게 될 일도 있을 것이다.어떤 패턴을 찾을 때, 이메일일 때, 동일 때 등등. 근데 파이썬만해도 충분하긴 하다. 그때그때찾아보고 쓰기. alt에 타입이란 것이 있을 때 라는 뜻이다. */
+img[alt^="TYPE"]
+img[alt~="TYPE"]
+

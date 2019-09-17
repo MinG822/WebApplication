@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block body %}
+
+
+<div class="container mt-3">
+  <h1>{{ article.title }}</h1>
+
+  <div class="media">
+    <div class="media-body">
+      <p>{{ article.content }}</p>
+    </div>
+  </div>
+  <div class="d-flex justify-content-between">
+    <div class="mb-0">{{ article.updated_at }}</div>
+    <div>
+      <a href="{% url 'posts:update' article.pk %}">update</a>
+      <a href="{% url 'posts:delete' article.pk %}">delete</a>
+    </div>
+  </div>
+  <hr>
+</div>
+
+<div class="container">
+  <h5>my comment</h5>
+  <div>
+    <form action="/posts/{{ article.pk }}/create_comment/">
+      <div class="form-row">
+        <div class="col-10">
+          <input class="form-control" type="text" name="content">
+        </div>
+        <div class="col-2">
+          <input type="submit" class="btn btn-primary">
+        </div>
+      </div>
+    </form>
+  </div>
+  <hr>
+  <div>
+    <h5>comments</h5>
+    <ul class="list-group">
+      {% for comment in comments %}
+        <li class="list-group-item disabled d-flex justify-content-between">
+          <div>{{ comment.content }}</div>
+          <div>
+            <a href="">update</a>
+            <a href="">delete</a>
+          </div>
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+</div>
+
+{% endblock %}

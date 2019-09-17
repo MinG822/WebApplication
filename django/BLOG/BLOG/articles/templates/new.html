@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block body %}
+  <div class="container">
+    <form action="/articles/create/" method="GET">
+      <input type="text" name="articleTitle" id="articleTitle" placeholder="제목을 입력해주세요.">
+      <input name="img_url" type="text"><br>
+      <textarea cols="40" rows="5" name="articleContent" id="articleContent" placeholder="내용을 입력해주세요."></textarea>
+      <button type="submit">등록하기</button>
+    </form>
+  </div>
+{% endblock %}

@@ -1,0 +1,52 @@
+
+div{
+  height: 100px;
+  width: 100px;
+}
+#box0 {
+  position:relative;
+  height: 500px;
+  width: 500px;
+  border: solid;
+  z-index: 100;  
+}
+#box1 {
+  background-color: pink
+}
+#box2 {
+  background-color: blue;
+  position: relative;
+  left: 100px;
+}
+#box3 {
+  background-color: green;
+  position: relative;
+  left: 200px
+}
+#box4 {
+  background-color: red;
+  position: relative;
+  left: 400px;
+  top: 100px;
+}
+#box5 {
+  background-color: orange;
+  height: 100px;
+  width: 100px;
+  position: fixed;
+  bottom: 0px;
+  right: 0px;
+  z-index: 300;
+}
+#box6{
+  background-color :yellow;
+  position:relative;
+  left: 200px;
+  bottom: 400px;
+}
+#box7{
+  background-color: purple;
+  position:absolute;
+  left: 300px;
+  top: 300px;
+}

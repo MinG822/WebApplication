@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Form</title>
+  <style>
+    li {
+      list-style: none;
+      }
+  </style>
+</head>
+<body>
+  <h1>Form</h1>
+  <span>주문서를 작성하여 주십시오.</span>
+<!-- placeholder 는 미리보기로 알려주는 것, value는 디폴트로 값이 들어가 있는 것
+date는 직접 달력에서 고르도록, 그리고 파라미터로 날려줄 수 있기때문에 더 괜찮다 datetime은 string의 느낌
+p태그를 쓰게 되면 간격이 넓어진다. 그래서 명세에 맞추려면 피테그를 없애야한다. 인라인 스타일로 쓰려면 피태그를 없애는 대신 근데
+스팬이라는 태그안에 넣어주기 -->
+  <form action="">
+
+    <span>이름: <input type="text" placeholder="이름을 입력해주세요"></span><br>
+    <span>날짜: <input type="datetime" value="2019. 01. 03." size="25"></span>
+  
+  
+    <h2>1. 샌드위치 선택</h2>
+    
+      <span><input type="Radio" Name="sandwich" Value="egg">에그마요</span><br>
+      <span><input type="Radio" Name="sandwich" Value="bmt">이탈리안 비엠티</span><br>
+      <span><input type="Radio" Name="sandwich" Value="avo">터키 베이컨 아보카도</span><br>
+    <hr>
+  
+    <h2>2. 사이즈 선택</h2>
+      <input type="number" min="15" max="30" size="3">  
+  
+    <hr>
+  
+    <h2>3. 빵</h2>
+    <!-- select의 name값을 설정해줘야하는 이유는 옵션의 밸류갑이 설정되었을 때 네임의 이름으로 값이 넘어가기 때문에  -->
+      <select name="bread">
+        <option value="" disabled selected>Select</option> 
+        <option Value="1">허니오트</option>
+        <option Value="2" disabled>플랫브래드</option>
+        <option Value="3">하티 이탈리안</option>
+      <!-- 값이 넘어갈 때 1,2,3일 경우 각각 빵을 선택하게 숫자로 선택하는 편 -->
+      </select>
+    
+  
+    <hr>
+  
+    <h2>4. 야채/소스</h2>
+    
+      <span><input type="Checkbox" Name="야채/채소" Value ="토마토">토마토</span><br>
+      <span><input type="Checkbox" Name="야채/채소" Value ="오이">오이</span><br>
+      <span><input type="Checkbox" Name="야채/채소" Value ="할라피뇨">할라피뇨</span><br>
+      <span><input type="Checkbox" Name="야채/채소" Value ="핫 칠리">핫 칠리</span><br>
+      <span><input type="Checkbox" Name="야채/채소" Value ="바베큐">바베큐</span><br>
+      
+    <button type="submit">submit</button>
+  </form>
+<!-- 폰트 구글닷컴에 들어가면 무료로 사용할 수 있다. 브랜드마다 맞춰서 폰트도 같이 가는 경우가 많은데 대부분의 경우 notosanskr을 가장 많이쓰는 표준개념 -->
+</body>
+</html>
