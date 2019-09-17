@@ -143,54 +143,120 @@
 
 - `models.py`에서 데이터베이스에 저장하고 싶은 테이블을 클래스로 작성하는 방식으로 모델을 변경할 수 있다.
 
-- 예를 들어 블로그의 포스트를 저장할 데이터베이스를 만들고 싶다면 `models.py`에 Post라는 클래스를 생성하고, 테이블에 저장될 데이터들을 필드를 지정해  
+- 예를 들어 제목, 내용, 이미지파일, 저장된 시각, 수정된 시각에 대한 데이터들로 이루어진 블로그의 포스트를 저장할 데이터베이스를 만들고 싶다면 `models.py`에 Post라는 클래스를 생성하고, 테이블에 저장될 데이터들을 필드를 지정해야한다.
 
   ```python
   from django.db import models
   class Post(models.Model): 
     title = models.CharField(max_length=25)
     content = models.TextField()
-    image_url = models.CharField(max_length=300)
+    image = models.ImageField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
   ```
 
-- Post라는 모델은 django.db.models.Model이라는 클래스를 상속받는 서브클래스로 표현된다.
+  - 데이터베이스 테이블 Post
+  - django.db.models.Model이라는 클래스를 상속받는 서브클래스로 표현
+  - Post의 필드
+    - Post 모델의 변수로 models의 Field클래스의 인스턴스로 표현
+    - 이때 데이터베이스의 각 필드는 어떤 자료형을 가질 수 있는 지 django에게 알려줌.
+    - 자료 변수명은 데이터베이스에서 칼럼명으로 사용됨.
+    -  Field 인스턴스의 이름을 설정하고 싶다면 
+      `content = models.TextField('content of post')`와 같이 첫번째 위치 인자로 Field 인스턴스의 이름 전달
 
-- Post 모델의 변수들은 데이터베이스 필드를 나타내는데, models의 Field클래스의 인스턴스로 표현되어 데이터베이스의 각 필드가 어떤 자료형을 가질 수 있는 지 django에게 알려주며 변수명은 데이터베이스에서 칼럼명으로 사용된다.
+  
 
-- `content = models.TextField('content of post')`와 같이 첫번째 위치 인수로 Field 인스턴스의 이름을 전달할 수도 있다.
+- **Field클래스의 종류**
 
-- 제목, 내용, image_url, 작성된 시간, 수정된 시간을 필드로 가지는 데이터베이
-
-- Field클래스의 종류
-
-  - CharField(max_length)
+  - **CharField(max_length)**
 
     - 비교적 작은 사이즈의 문자열 자료형을 가지는 필드
     - 필수 인자로 max_length를 가짐
 
-  - TextField()
+  - **TextField()**
 
     - 큰 사이즈의 문자열 자료형을 가지는 필드
 
-  - DateTimeField()
+  - **DateTimeField(), DateField(), TimeField()**
 
-    - datetime.datetime 인스턴스를 자료형으로 가지는 필드
+    - 각각 datetime.datetime, datetime.date, datetiem.time 인스턴스를 자료형으로 가지는 필드
 
-    - 선택적인 인자
+    - 선택 속성(attribute)
 
       **DateField.auto_now** : model클래스의 객체가 저장될 때마다 자동적으로 현재시각이 모델에 저장되는 옵션이며 마지막으로 수정된 타임스탬프를 표현하는데 유용하다.
 
-      DateField.auto_now_add : model클래스의 객체가 처음 생성될 때 자동적으로 저장되는 옵션이다.
+      **DateField.auto_now_add** : model클래스의 객체가 처음 생성될 때 자동적으로 저장되는 옵션이다.
 
     - 만약 이상하게 DateField 데이터가 이상하게 저장된다면 프로젝트의 `settings.py`의 `TIME_ZONE = 'Asia/Seoul'`로 되어있는지 확인
 
-  - DateField(), TimeField()
+  - **FileField()와 ImageField()**
 
-    - datetime.date 인스턴스, datetime.time인스턴스를 자료형으로 가지는 필드. 그 외는 DateTimeFied()와 동일하다
+    - 업로드된 파일의 상대경로가 저장되는 필드
 
-  - 그 외에 primary key를 자동으로 설정 및 저장하는 IntergerField(직접 쓸일이 없음), ture/false값을 저장하는 BooleanField(checkboxinput 등을 쓸 때), timedelta값 등 기간 값을 저장하는 DurationField, 유효한 이메일 주소인지 확인해주는 EmailField(), 파일을 업로드하는 필드 FileField(), FileField와 거의 같지만 유효한 이미지인지 확인해 주는 ImageField(), 정수 자료형을 저장하는 IntergerField() 등이 있다. 자세한 내용은 [여기](https://docs.djangoproject.com/ko/2.2/ref/models/fields/#django.db.models.CharField)를 확인하기
+    - 선택 속성(attribute)
+
+      - 업로드된 파일이 저장되는 세부 경로를 지정해줌
+
+      - 지정해주지 않을 때 `FileField.upload_to=None`가 디폴트로 넘겨지며, 업로드된 파일은 MEDIA_ROOT 에 파일이 저장됨
+
+      - 지정해 줄때는 `FileField.upload_to='uploads/'`와 같이  `MEDIA_ROOT/`의 하위 디렉토리를 값으로 넣어줄 수 있으며, 업로드된 파일은 `MEDIA_ROOT/uploads`에 저장된다.
+
+      - 효율적인 파일관리를 위해 `FileField.upload_to='uploads/%Y/%m/%d/'`로 설정해 날짜에 따라 파일을 분류해 저장할 수도 있다.
+
+      - **MEDIA_ROOT와 MEDIA_URL설정**
+
+        - MEDIA_ROOT
+
+          - 사용자가 업로드한 파일들을 저장할 로컬 디렉토리에 대한 절대파일경로
+
+          - 장고의 성능을 위해 데이터베이스에 직접 파일을 저장하지 않고, MEDIA_ROOT에 지정된 경로로 저장된다
+
+          - MEDIA_ROOT 예시
+
+            MYSITE프로젝트 폴더 내의 media 폴더에 사용자가 업로드한 파일들을 저장하고 싶을 경우
+
+            `MEDIA_ROOT = os.path.join(BASE_DIR, 'media')`
+
+          - STATIC_ROOT와 다르며, STATIC_ROOT가 설정되기 전까지는 MEDIA_ROOT가 그 역할을 대신 수행해주지만 보안에 취약.
+
+        -  MEDIA_URL
+
+          - 데이터베이스 테이블의 image 컬럼에 실제로 저장되는 값(URL)으로
+
+          - MEDIA_URL을 통해 MEDIA_ROOT로 부터 미디어 파일을 불러오거나 관리
+
+          - 디폴트는 빈문자열이며 디렉토리를 지정할 경우 반드시 /로 끝나야한다.
+
+          - STATIC_URL과는 다른 값이다
+
+          - 인터넷 상의 이미지 주소를 가져올 수도 있고, 로컬폴더의 경로를 지정해줄 수도 있다.
+
+          - 로컬폴더의 경로 지정 예시
+
+            - 위에서 설정한 MEDIA_ROOT의 이미지 파일의 경로를 가져오고 싶을 경우
+
+              `MEDIA_URL = '/media/'`
+
+            - 로컬로 저장한 이미지 파일의 경로를 사용자가 요청했을 때 불러오기 위해서는 `MYSITE/mysite/`을 다음과 같이 작성해야한다.
+
+              ```python
+              from django.contrib import admin
+              from django.urls import path, include
+              from django.conf.urls.static import static
+              from django.conf import settings
+              urlpatterns = [
+                path('admin/', admin.site.urls),
+              ]
+              urlpatterns += static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT) 
+              ```
+
+  - 그 외의 Field 클래스의 종류(자세한 내용은 [여기](https://docs.djangoproject.com/ko/2.2/ref/models/fields/#django.db.models.CharField)를 확인하기)
+    - 정수 자료형을 저장하는 IntergerField() 
+    - (직접 쓸 일은 없지만 primary key를 자동으로 설정 및 저장하는 필드도 IntergerField로 설정되어 있음)
+    - checkboxinput 등을 사용할 경우 ture/false값을 저장하는 BooleanField()
+    - timedelta값 등 기간 값을 저장하는 DurationField
+    - 유효한 이메일 주소인지 확인해주는 EmailField()
+      
 
 - 1:N 다대일 관계의 데이터베이스
 
@@ -216,17 +282,25 @@
 
 ### 4.2. 모델 활성화하기
 
--  models.py을 활성화하면 django를 통해 앱을 위한 데이터베이스 스키마를 생성하고 (CREATE TABLE) 모델 객체에 접근하기 위한 데이터베이스접근 API를 생성할 수 있다.
-- makemigrations
-- 모델을 변경시킨 사항을 migration으로 저장시키고 싶다는 것을 django에게 알려줌
-- migration은 django가 모델의 변경사항을 저장하는 방법. 디스크상의 파일로 저장. 0001_initial.py파일 등으로 저장된 변경된 모델에 대한 migration. 수동으로 변경하고 싶을 때 직접 변경할 수 있다.
-- migration이 내부적으로 실행하는 sql 문장들을 확인하고 싶으면 sqlmigrate
-- migrate를 실행시켜 데이터베이스에 모델과 관련된 테이블을 생성한다. 아직 적용되지 않은 마이그레이션을 모두 수집해 이를 실행하며 이를 통해 모델에서의 변경사항들과 데이터베이스의 스키마의 동기화가 이루어짐. 동작 중인 데이터베이스를 자료손실없이 업그레이드 하는데 최적화 되어있음
-- migrate 명령은 Installed_apps에 등록된 어플리케이션에 한하여 실행된다. 데이터베이스에서 테이블을 만드는 명령어 migrate . migrate 명령은 Installed_apps의 설정을 탐색해 mysite/settings.py의 데이터베이스 설정과 app과 함께 제공되는 데이터베이스 migrations에 따라 필요한 데이터베이스 테이블을 생성한다. 
+- `models.py`을 활성화하면 django가 앱의 데이터베이스 스키마를 생성하고 (CREATE TABLE) 모델 객체에 접근하기 위한 데이터베이스접근 API(`python shell`에서 조작가능)를 생성한다.
 
-- Python shell (Django API) 로 데이터베이스 객체생성 및 조작
+- **makemigrations**
 
-- `$ python manage.py shell` django에서 동작하는 모든 명령을 대화식 phython shell에서 그대로 시험할 수 있다. 
+  -  `$ python manage.py makemigrations`
+  -  모델을 변경시킨 사실과 이 변경사항을 migration으로 저장시키고 싶다는 것을 django에게 알려줌
+  -  **migration**이란 장고가 데이터베이스 스키마를 포함한 모델의 변경사항을 저장하는 방법으로써, `0001_initial.py`과 같은 파일들로 저장됨. 수동으로 직접 변경도 가능하다고 함.
+  -  migration이 내부적으로 실행하는 sql 문장들을 확인하고 싶으면 `sqlmigrate` 명령어를 통해 확인할 수 있다.
+
+- **migrate**
+
+  -  `$ python manage.py migrate`
+  -  데이터베이스에 모델과 관련된 테이블을 생성하거나 테이블을 업그레이드 해준다.
+  -  아직 적용되지 않은 마이그레이션을 모두 수집해 이를 실행하며 이를 통해 모델에서의 변경사항들과 데이터베이스의 스키마의 동기화가 이루어지기 때문에, 동작 중인 데이터베이스를 자료 손실 없이 업그레이드 하는데 최적화 되어있음
+  -  명령어를 실행했을 때 장고가 탐색하는 곳은 mysite/settings.py의 Installed_apps과 각각의 app과 함께 제공되는 데이터베이스 migrations이기 때문에 모델 활성화 하기 전에 반드시 Installed_apps에 앱을 등록해야한다. 
+
+- Python shell (Django API) 로 데이터베이스 객체 생성 및 조작하기
+
+  -  `$ python manage.py shell`는 django에서 동작하는 모든 명령을 대화식 phython shell에서 그대로 실행할 수 있음
 
   ```shell
   >>> from blog.models import Post, Comment
