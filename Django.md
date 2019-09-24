@@ -307,29 +307,34 @@
   >>> Post.objects.all()
   <QuerySet []>
   # Post클래스의 모든 인스턴스들을 가져오는 명령어. 현재 생성된 인스턴스가 없기 때문에 쿼리셋은 비어있다.
->>> article = Post(title="title", content="content")
+  >>>article = Post(title="title", content="content")
   # Post클래스의 인스턴스로 article을 생성하는데, created_at과 updated_at은 자동으로 생성되고, image는 빈 값도 허용되기 때문에 title과 content만 지정해도 생성된다.
-  >>> article.save()
+  >>>article.save()
   # 명시적으로 저장을 해줘야 데이터베이스의 Post 테이블에 article 튜플이 저장된다. 
-  >>> article.id
+  >>>article.id
   1
   # article의 id
-  >>> article.title
+  >>>article.title
   title
-  >>> article.title = "newtitle"
-  >>> article.save()
-  >>> Post.objects.all()
+  >>>article.title = "newtitle"
+  >>>article.save()
+  >>>Post.objects.all()
   <querySet [<Question: Question object (1)>]
-  >>> Post.objects.filter(id=1)
+  >>>Post.objects.filter(id=1)
   <querySet [<Question: Question object (1)>]
-  >>> Post.objects.get(pk=1)
+  >>>Post.objects.get(pk=1)
   <querySet [<Question: Question object (1)>]
-  >>> Post.objects.first()
+  >>>Post.objects.first()
   <querySet [<Question: Question object (1)>]
-  >>> Post.objects.last()
+  >>>Post.objects.last()
   <querySet [<Question: Question object (1)>]
-  >>> article.delete()
+  >>>article.delete()
   ```
-  
-  - models.py의 Post 클래스 객체를 가져오기 위해 
 
+---
+
+## 5. 뷰 작성하기
+
+MTV 에서 V를 담당
+
+1. 

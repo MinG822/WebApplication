@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+<h1 class="text-center">{{ picked_question.title }}</h1>
+<div class="row">
+  <div class="col-sm-5">
+    <div class="card">
+      <img src="{{ picked_quesiton.image_url }}" class="card-img-top" alt="image_of_issue_a">
+      <div class="card-body">
+        <h5 class="card-title">Option A</h5>
+        <p class="card-text">{{ picked_question.issue_a }}</p>
+        <a href="#" class="btn btn-primary">vote</a>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-2">
+    <p>vs</p>
+  </div>
+  <div class="col-sm-5">
+    <div class="card">
+      <img src="{{ picked_question.image_url }}" class="card-img-top" alt="image_of_issue_b">
+      <div class="card-body">
+        <h5 class="card-title">Option B</h5>
+        <p class="card-text">{{ picked_question.issue_b }}</p>
+        <a href="#" class="btn btn-primary">vote</a>
+      </div>
+    </div>
+  </div>
+</div>
+<hr>
+<h3>comments</h3>
+<form class="form-group" action="{{ url 'answer_create' }}" method="POST">
+    <label for="comment">Your comment</label>
+    <textarea class="form-control" id="comment" rows="3"></textarea>
+</form>
+
+{% endblock %}
+
