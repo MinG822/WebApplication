@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+{% block body %}
+
+<!-- 지난주 이전까지는 이렇게 했을 것이다 -->
+<h1>회원가입</h1>
+
+<form action="#" method="post">
+    {% csrf_token %}
+    <input type="text" name="" id="">
+    <input type="text" name="" id="">
+    <button type="submit">등록하기</button>
+</form>
+
+{{form.as_p}}
+
+<hr>
+
+<!-- user form 사용 -->
+<h1>회원가입</h1>
+
+<form method="post">
+    {% csrf_token %}
+    {% bootstrap_form form %}
+    {% buttons submit="회원가입" %}
+    {% endbuttons %}
+</form>
+
+<hr>
+
+{% endblock %}

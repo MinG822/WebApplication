@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <div id="app">
+    <div v-for="(stage, index) in stages" :key="index">
+      <p>{{ index }} : {{ stage.name }}</p>
+      <ul v-for="(todo, index) in todos" :key="index" v-if="todoByStage(stage, todo)">
+        <li>{{ index }} : {{ todo.content }}</li>
+      </ul>
+      <ul>
+        <li v-if="!stage.adding" @click="toggleAdding(stage)">+add a card</li>
+        <form v-else>
+          <input type="text">
+          <button>submit</button>
+        </form>
+      </ul>
+    </div>
+  </div>
+  
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script>
+    const app = new Vue({
+      el: '#app',
+      data: {
+        stages: [
+          {name:'todo', adding:true},
+          {name:'doing', adding:false},
+          {name:'done', adding:false},
+        ],
+        todos: [
+          {id:1, content:'morning', stage:'done'},
+          {id:2, content:'lunch', stage:'done'},
+          {id:3, content:'dinner', stage:'todo'},
+        ],
+      },
+      methods: {
+        todoByStage: function (stage, todo) {
+          return stage.name === todo.stage
+        },
+        toggleAdding: function (stage) {
+          return stage.adding = !stage.adding
+        },
+      }
+    })
+  </script>
+</body>
+</html>

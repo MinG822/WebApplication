@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <div id="app">
+    <h1>Minji의 Todo 앱</h1>
+    <todo-list category="daily"></todo-list>
+    <todo-list category="weekly"></todo-list>
+    <todo-list category="monthly"></todo-list>
+  </div>
+
+  <template id="template1">
+    <div>
+      <h2>{{ category }}</h2>
+      <input type="text" v-model="newTodo">
+      <button @click="addTodo()">+</button>
+      <li v-for="todo in todos" :key="todo.id">
+        <span>{{ todo.content }}</span>
+        <button @click="removeTodo(todo.id)">x</button>
+      </li>
+    </div>
+  </template>
+
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  
+  <script>
+    Vue.component('todo-list', {
+      template:'#template1',
+      props: {
+        category: {
+          type: String,
+          required: true,
+          validator: function(value) {
+            if (value.length !== 0) {
+              return true
+            } else {
+              return false
+            }
+          }
+        },
+        categoryId: Number,
+      },
+      data: function() {
+        return {
+          todos: [],
+          newTodo: '',
+        }
+      },
+      methods: {
+        addTodo: function () {
+          if (this.newTodo.length != 0) {
+            this.todos.push(
+            {
+              id: Date.now(),
+              content: this.newTodo
+            })
+          }
+          this.newTodo = ''
+        },
+        removeTodo: function (index) {
+          this.todos = this.todos.filter((todo) => {
+            return todo.id != index 
+          })
+        },
+      },
+    })
+  </script>
+  
+  <script>
+    const app = new Vue({
+      el: '#app',
+    })
+  </script>
+</body>
+</html>

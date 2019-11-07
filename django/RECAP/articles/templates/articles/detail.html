@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+
+{% block body %}
+  <h1> 상세페이지 </h1>
+  <p>{{ article.pk }}</p>
+  <p>{{ article.title }}</p>
+  <p>{{ article.content }}</p>
+  <p>{{ article.created_at|date:"Y년 m월 d일"}}</p>
+  <p>{{ article.updated_at|date:"SHORT_DATE_FORMAT"}}</p>
+
+{% if request.user.is_authenticated %}
+  <a href="{% url 'articles:index' %}">목록보기</a>
+  <a href="{% url 'articles:update' article.pk %}">수정하기</a>
+{% endif %}
+
+  <h2 class="text-center">코멘트 작성하기</h1>
+  <div class="container">
+    <form action="{% url 'articles:comment_create' article.pk %}" method="POST">
+      {% csrf_token %}
+      {% bootstrap_form form %}
+      <input type="submit">
+    </form>
+  </div>
+
+  <h2> 코멘트 보기 </h2>
+  <ul>  
+  {% for comment in comments %}
+    <li>
+      <p>{{comment.content}}</p>
+      <form action="{% url 'articles:comment_delete' article.pk comment.pk %}" method="POST">
+          {% csrf_token %}
+          <input type="submit" value="삭제">
+      </form>
+    </li>
+  {% endfor %}
+  </ul>
+
+{% endblock %}

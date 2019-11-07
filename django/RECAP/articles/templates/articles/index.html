@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block body %}
+<h1 id='title'>You r at index page</h1>
+{% if user.is_authenticated %}
+<a href="{% url 'accounts:logout' %}"></a>
+<a href="{% url 'accounts:update' %}"></a>
+<a href="{% url 'articles:create' %}">new</a>
+{% endif %}
+
+{% for article in articles %}
+  <p>{{ article.pk }}</p>
+  <p>{{ article.title }}</p>
+  <a href="{{ article.get_absolute_url }}">상세보기</a>
+  <form action="{% url 'articles:delete' article.pk %}" method="POST">
+    {% csrf_token %}
+    <input type="submit" value="삭제">
+  </form>
+
+  <!-- 링크는 무조건 get으로 보낸다. 그럼 어떻게해야 post방식으로 보내지?-->
+{% endfor %}
+
+{% endblock %}

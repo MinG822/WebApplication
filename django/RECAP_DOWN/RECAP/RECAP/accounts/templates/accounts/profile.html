@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+{% block body %}
+
+
+<h1>{{ person.username }}</h1>
+{% with followers=person.followers.all followings=person.followings.all %}
+  {% if user != person %}
+    {% if in followers %}
+    <a class="btn btn-outline-primary" href="/accounts/follow/{{ person.pk }}" class="btn btn-primary">언팔로우</a>
+    {% else %}
+    <a class="btn btn-primary" href="/accounts/follow/{{ person.pk }}" class="btn btn-primary">팔로우</a>
+    {% endif %}
+  {% endif %}
+  <p>팔로워수 : {{ followers|length }}</p> 
+  <p>팔로워들 :
+    {% for follower in person.followers.all %}
+      {{ follower }}
+    {% endfor %}</p> 
+  <p>팔로잉수 : {{ followings|length }}</p> 
+  <p>팔로워들 :
+    {% for following in followings %}
+      {{ following }}
+    {% endfor %}</p> 
+{% endwith %}
+
+{% with articles=person.article_set.all %}
+  {% for article in articles %}
+    <p>{{ article.pk }} | {{ article.title }} | 좋아요 {{ article.like_users.count }} | 댓글 {{ article.comment_set.count }}</p>
+  {% endfor %}
+{% endwith %}
+
+
+{% with likearticles=person.like_articles.all %}
+  {% for likearticle in likearticles %}
+    {{ likearticle }}
+  {% endfor %}
+{% endwith %}
+
+{% endblock %}

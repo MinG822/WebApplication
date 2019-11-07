@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+{% block body %}
+
+<h1 id="title">새 글 쓰기</h1>
+<form action="/articles/create/" method="POST">
+{% csrf_token %}
+<input type="text" name="title">
+<input type="text" name="content">
+<button type="submit">submit</button>
+</form>
+
+
+<h1>Form class로 html form 생성</h1>
+<form action="/articles/create/" method="POST">
+    {% csrf_token %}
+    {% bootstrap_form form %}
+    <button type="submit">submit</button>
+</form>
+
+{% endblock %}

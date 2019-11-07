@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+{% block body %}
+
+<!-- user form 사용 -->
+<h1>로그인</h1>
+
+<form method="post">
+    {% csrf_token %}
+    {% bootstrap_form form %}
+    {% buttons submit="로그인" %}
+    {% endbuttons %}
+</form>
+
+<hr>
+
+{% endblock %}

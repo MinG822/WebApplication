@@ -1,0 +1,131 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load bootstrap4 %}
+
+{% block body %}
+
+<div class="mt-3 d-flex justify-content-between">
+  <div class="d-inline-block ml-3">
+    <p class="d-inline-block my-1" style="font-weight: 300;"><small>작성자</small>{{ article.user }} |
+      {{ article.user.first_name }} | </p>
+    <p class="d-inline-block my-1" style="font-weight: 300;">{{ article.pk }} | </p>
+    <p class="d-inline-block my-1" style="font-weight: 400;">{{ article.title }}</p>
+  </div>
+  <div class="d-inline-block mr-3">
+    <p class="d-inline-block my-1" style="font-weight: 300;">작성일시:
+      {{ article.created_at|date:"SHORT_DATETIME_FORMAT" }}</p>
+  </div>
+</div>
+
+<hr>
+
+<div class="px-3">
+  <p>{{ article.content }}</p>
+</div>
+
+{% if article.user == user %}
+{% if user.is_authenticated %}
+<a href="{% url 'articles:update' article.pk %}">
+  <button class="btn btn-sm btn-outline-dark">update</button>
+</a>
+<form class="d-inline-block form-inline my-0" action="{% url 'articles:delete' article.pk %}" method="POST">
+  {% csrf_token %}
+  <button class="btn btn-sm btn-outline-danger" type="submit">delete</button>
+</form>
+{% endif %}
+{% endif %}
+
+<hr>
+
+{% comment %}
+
+<p>comment1</p>
+<form action="{% url 'articles:comment' article.pk %}" method="POST">
+  {% csrf_token %}
+  {% bootstrap_form comment_form %}
+  <input type="submit" value="submit">
+</form>
+
+<p>comment2</p>
+<form action="{% url 'articles:comment2' article.pk %}" method="POST">
+  {% csrf_token %}
+  {% bootstrap_form comment2_form %}
+  <input type="submit" value="submit">
+</form>
+
+{% endcomment %}
+
+<p>해시태그목록</p>
+<p><strong>
+  {% for hashtag in article.hashtags.all %}
+    {{ hashtags }}
+  {% endfor %}
+</strong></p>
+
+{# 좋아요 목록 #}
+{# <a href="/articles/:id/like/:article"></a> #}
+{#{% if user.is_authenticated and user in article.like_users.all %}#}
+
+{% with likeusers=article.like_users.all %}
+    {% if user.is_authenticated and user in likeusers %}
+      <form class="m-0 form-inline d-inline-block" action="{% url 'articles:like2' article.pk %}" method="POST" id="like">
+        <a style="cursor: pointer;" onclick="document.getElementById('like').submit();">
+        <div class="d-inline-block" style="z-index:10; background-size: 218%; height: 20px;width: 20px;background-position: -22px -12px; background-image:url({% static 'like.jpg' %})"></div>
+    {% else %}
+      <form class="m-0 form-inline d-inline-block" action="{% url 'articles:like2' article.pk %}" method="POST" id="like">
+        <a style="cursor: pointer;" onclick="document.getElementById('like').submit();">
+        <div class="d-inline-block" style="background-size: 218%;height: 20px; width: 20px;background-position: -3px -12px; background-image:url({% static 'like.jpg' %})"></div>
+    {% endif %}
+        </a>
+        {% csrf_token %}
+      </form>
+  <p class="d-inline-block">{{ article.like_users.count }} 개의 좋아요</p>
+  <p>
+    {% for likeuser in likeusers %}
+      <span>{{ likeuser.username }}</span>
+    {% endfor %}
+    가 이 글을 좋아합니다.
+  </p>
+{% endwith %}
+
+댓글 갯수 {{ article.comment_set.all|length }}
+
+<hr>
+
+
+<div>
+  <form class="d-inline-block" action="{% url 'articles:comment' article.pk %}" method="POST">
+    {% csrf_token %}
+    <input type="text" name="content" id="content">
+    <button type="submit">submit</button>
+  </form>
+</div>
+<div>
+  {% if article.comment_set.all %}
+  <!-- 템플릿 데이터를  -->
+  <h2>댓글목록</h2>
+  {% for comment in article.comment_set.all %}
+  <div>
+    <p class="d-inline-block my-1">
+      <span style="font-weight:300">{{ forloop.revcounter }} | <small>작성자</small> {{ comment.user }} |
+      </span><span style="font-weight:400">{{ comment.content }}</span>
+    </p>
+    <form class="d-inline-block form-inline my-1" action="{% url 'articles:comment_delete' article.pk comment.pk %}"
+      method="post" id="comment_delete{{ comment.pk }}">
+      {% csrf_token %}
+      <a onclick="document.getElementById('comment_delete{{ comment.pk }}').submit();">
+        <button class="btn btn-sm btn-outline-danger py-0"
+          style="vertical-align: unset;height:20px;">delete</button></a>
+    </form>
+  </div>
+  {% endfor %}
+  {% else %}
+  <p>댓글을 등록해주세요.</p>
+  {% endif %}
+</div>
+
+
+
+
+
+{% endblock %}

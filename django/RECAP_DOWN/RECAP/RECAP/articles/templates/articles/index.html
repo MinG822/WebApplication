@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block body %}
+{{ visits }}
+
+<h1 id="title">Articles</h1>
+<!-- show all articles -->
+
+<table class="table table-hover">
+    <thead>
+        <td>pk</td>
+        <td colspan="3">title</td>
+        <td>date</td>
+    </thead>
+{% for article in articles %}
+<tr>
+    <td>{{ article.pk }}</td>
+    <td colspan="3"><a href="{% url 'articles:detail' article.pk %}">{{ article.title }}</a></td>
+    <td>{{ article.created_at|date:"Y-m-j" }}</td>
+</tr>
+{% endfor %}
+</table>
+
+{% endblock %}

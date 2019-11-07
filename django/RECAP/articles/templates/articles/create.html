@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+
+{% block body %}
+  <h1 class="text-center">새글쓰기</h1>
+  <div class="container">
+    <form action="{% url 'articles:create' %}" method="POST">
+      {% csrf_token %}
+      {% bootstrap_form form %}
+      <input type="submit">
+    </form>
+  </div>
+
+{% endblock %}
+
+<!-- form.as_p, form.as_ul, form.as_table() -->

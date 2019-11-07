@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Vue ToDo</title>
+  <style>
+    .completed {
+      text-decoration: line-through;
+      color: salmon;
+      opacity: 0.;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="app">
+    <h1><img :src="imgSrc" :height="height" width="width">VUE TODO</h1> 
+    <input type="text" v-model="newTodo" @keyup.enter="addTodo">
+    <button @click="addTodo">+</button>
+    <select v-model="status">
+      <option value="all" selected>all</option>
+      <option value="active">active</option>
+      <option value="completed">completed</option>
+    </select>
+
+    <h3>할일 목록</h3>
+    <ul>
+      <li :class="{completed: todo.completed}" v-for="todo in todoByStatus">
+        <input type="checkbox" @click="check(todo)" v-model="todo.completed" :key="todo.id">{{ todo.content }}
+      </li>
+    </ul>
+
+    <button @click="clear">지우기</button>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script>
+  const STORAGE_KEY = 'vue-todos'
+
+  const todoStorage = {
+    fetch() {
+      return JSON.parse(localStorage.getItem(STORAGE_KEY)) || []
+    },
+    save(todos) {
+      return localStorage.setItem(STORAGE_KEY, JSON.stringify(todos))
+    }
+  }
+
+  // todoStorage.save()
+  // todoStorage.fetch()
+  // 
+
+  
+  const app = new Vue({
+    el: '#app',
+    data: {
+      todos: todoStorage.fetch(),
+      // [
+      //   { id:1, content: 'workshop', completed:false},
+      //   { id:2, content: 'homework', completed:true},
+      //   { id:3, content: 'project07', completed:false},
+      // ],
+      imgSrc: "https://i1.wp.com/wp.laravel-news.com/wp-content/uploads/2016/09/vuejs.png?resize=2200%2C1125",
+      height: 30,
+      width: 30,
+      newTodo: '',
+      status: 'all', // all 다보여주기, completed, active
+    },
+    methods: {
+      check(todo) {
+        todo.completed = !todo.completed
+      },
+      addTodo() {
+        if (this.newTodo.length != 0) {
+        this.todos.push({
+          content: this.newTodo,
+          completed: false,
+          //id: this.todos.length,
+          id: Date.now(),
+        })}
+        this.newTodo=''
+      },
+      clear() {
+        this.todos = this.todos.filter((todo) => {
+          return !todo.completed 
+        })
+         
+      },
+    },
+    computed: {
+      todoByStatus() {
+        // 진행 중인 일(active)
+        if (this.status === 'active') {
+          return this.todos.filter((todo) => {
+            return !todo.completed
+          })
+        } 
+        // 완료된 일(completed)
+        if (this.status === 'completed') {
+          return this.todos.filter((todo) => {
+            return todo.completed
+          })
+        }
+        return this.todos
+      }
+    },
+    watch: {
+      todos: {
+        handler(todos) {
+          // todos 가 변경될 때 마다 localStorage에 저장.
+          todoStorage.save(todos)
+        },
+        deep: true,
+      }
+    }
+  })
+  </script>
+</body>
+</html>

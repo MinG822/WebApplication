@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <title>Document</title>
+</head>
+
+<body>
+  <div id="navBar">
+    <nav class="navbar navbar-light bg-light">
+      <a class="navbar-brand">
+          <img :src="imgSrc" :width="width" :height="height" class="d-inline-block align-center">
+        Todo
+      </a>
+      <form class="form-inline">
+        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+        <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+      </form>
+    </nav>
+  </div>
+  
+  <div id="app" class="row mx-1 mt-2">
+    <div class="col-4 mb-3" v-for="section in procedure" :key="section.id">
+      <div class="card">
+        <div class="card-header">
+          {{ section.stage }}
+        </div>
+        <ul class="list-group list-group-flush">
+					
+					<li v-for="c in section.contents" class="list-group-item" :key="c.id">
+            {{ c.content }}
+            <button class="btn btn-outline-secondary btn-sm dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Move</button>
+            <div class="dropdown-menu">
+              <a v-for="section2 in procedure" v-if="section2.id != section.id" :key="section2.id" class="dropdown-item" @click="moveStage(c, section, section2)">{{ section2.stage }}</a>
+            </div>
+          </li>
+					
+					<li class="list-group-item" v-if="!section.adding">
+						<span @click="getInput2(section)">{{ !section.contents.length ? '+Add a Card' : '+Add another Card' }}</span>	
+					</li>
+					<li class="list-group-item" v-else>
+            <div class="input-group">
+              <p><input type="text" class="form-control border-primary" v-model="anotherCard" @keyup.enter="addAnotherCard(section)"></p>
+              <button type="submit" class="btn btn-primary btn-sm" @click="addAnotherCard(section)">Add Card</button>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="col-4">
+      <div class="card">
+        <div class="card-header">
+          <p v-if="anotherList.hidden" @click="getInput()">+ Add another List</p>
+          <div class="input-group" v-else>
+            <p><input type="text" class="form-control border-primary" v-model="anotherList.inner" @keyup.enter="addAnotherList()"></p>
+            <button type="submit" class="btn btn-primary btn-sm" @click="addAnotherList()">Add List</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+  <script>
+    const navBar = new Vue({
+      el: '#navBar',
+      data: {
+        imgSrc: "https://vuejs.org/images/logo.png",
+        height: 20,
+        width: 20,
+      }
+    })
+
+    const app = new Vue({
+      el: '#app',
+      data: {
+        procedure: [
+          { id:1, stage:"Todo", contents:[{id: 1, content: 'workshop'}], adding:false },
+          { id:2, stage:"Doing", contents:[], adding:false},
+          { id:3, stage:"Done", contents:[], adding:false},
+        ],
+				anotherList: {inner:'Enter a list title', hidden:true},
+        anotherCard: 'Enter a title to the card...',
+      },
+
+      methods: {
+        getInput () {
+          this.anotherList.hidden = false
+        },
+        addAnotherList () {
+          if (this.anotherList.inner.length != 0 && this.anotherList.inner != 'Enter a list title') {
+            this.procedure.push({
+            id: this.procedure.length,
+            stage: this.anotherList.inner,
+            contents: [],
+            adding:false})
+          }
+          this.anotherList = {inner:'Enter a list title', hidden:true}
+				},
+        moveStage(c, section, section2) {
+          this.procedure.forEach(s => {
+            if (s.id === section2.id) {
+              s.contents.push(c)}
+            if (s.id === section.id ) {
+              s.contents.splice(c.id-1, 1)}
+            })
+          },
+        getInput2(section) {
+          section.adding = true
+        },
+        addAnotherCard(section) {
+          if (this.anotherCard.length != 0 && this.anotherCard.inner != 'Enter a title to the card...') {
+            section.contents.push({
+            id: section.contents.length,
+            content: this.anotherCard
+            }) 
+          }
+          section.adding = false
+          this.anotherCard = 'Enter a title to the card...'
+        },
+      }
+    })
+  </script>
+</body>
+</html>

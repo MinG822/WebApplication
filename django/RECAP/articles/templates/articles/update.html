@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+
+{% block body %}
+  <h1 class="text-center">글수정하기</h1>
+  <div class="container">
+    <form action="{% url 'articles:update' article.pk %}" method="POST">
+      {% csrf_token %}
+      {% bootstrap_form form %}
+      <input type="submit">
+    </form>
+  </div>
+
+{% endblock %}

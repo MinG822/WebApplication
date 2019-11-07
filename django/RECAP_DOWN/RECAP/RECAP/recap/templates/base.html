@@ -1,0 +1,43 @@
+{% load bootstrap4 %}
+{% load static %}
+{% bootstrap_css %}
+{% bootstrap_javascript jquery='full' %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="url({% static 'style.css' %})">
+    <title>Document</title>
+</head>
+<body style="font-family: 'Noto Sans KR', sans-serif;">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <a href="{% url 'articles:index' %}"><button class="btn btn-sm btn-secondary">목록 보기</button></a>
+                {% if user.is_authenticated %}
+                <a href="{% url 'accounts:explore' %}">둘러보기</a>
+                <a href="{% url 'profile' user.username %}">모아보기</a>
+                <a href="{% url 'accounts:logout' %}"><button class="btn btn-sm btn-secondary">로그아웃</button></a>
+                <a href="{% url 'accounts:update' %}"><button class="btn btn-sm btn-warning">회원정보변경</button></a>
+                <a href="{% url 'accounts:delete' %}"><button class="btn btn-sm btn-danger">회원탈퇴</button></a>
+                <form action="{% url 'accounts:delete' %}" method="POST" class="d-inline-block">{% csrf_token %}<button class="btn btn-sm btn-danger">회원탈퇴</button></form>
+                <a href="{% url 'articles:create' %}"><button class="btn btn-sm btn-secondary">새 글 쓰기</button></a>
+                <p class="badge badge-small badge-primary">안녕하세요, {{ user.username }}</p> <p class="badge badge-small badge-primary">last login: {{ user.last_login|date:"Y-m-d H:i:s"}}</p>
+                {% else %}
+                <a href="{% url 'accounts:signup' %}"><button class="btn btn-sm btn-secondary">회원가입</button></a>
+                <a href="{% url 'accounts:login' %}"><button class="btn btn-sm btn-secondary">로그인</button></a>
+                {% endif %} 
+            </div>
+            
+            <div class="col">
+                {% block body %}
+                {% endblock %}
+            </div>
+        </div>
+    </div>
+    <link href="https://fonts.googleapis.com/css?family=Noto+Sans+KR:300,400&display=swap&subset=korean" rel="stylesheet">
+</body>
+</html>
