@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Learn Js</title>
+  <style>
+    body {
+      background: black;
+      color: white;
+      width: 960px;
+    }
+  </style>
+</head>
+<body>
+  <script>
+    alert('Welcome to JS')
+    document.write('<h1 id="hello">Hello world!</h1>')
+    // alert('Goodbye') alert는 우선적으로 처리된다.
+    document.querySelector('#hello').innerText = 'Goodbye world..'
+
+    // constant(상수) ES6+ 에서는 바뀌지 않을 값은 모두 상수로 작성하는 것을 권한다.
+    const word = '외안되'
+    document.write(word)
+
+    // word = '왜안돼'
+    //04_recap.html:26 Uncaught TypeError: Assignment to constant variable. at 04_recap.html:26
+    document.write(word)
+
+    // String concatenation(문자열 연결하기)
+    const firstName = 'happy'
+    const lastName = 'hacking'
+    const fullName = firstName + lastName
+    document.write('<h1>'+fullName + '!!'+ '</h1>')
+
+    //Template Literal (템플릿 문자열: ES6+ 부터 지원)
+    document.write(`<h1>${fullName}!!!</h1>`)
+
+    // debugging (콘솔에 출력하기)
+    document.write(`Document ${fullName}`)
+    console.log(`Document ${fullName}`)
+    
+    // User input (사용자 입력받기 -browser only)
+    const userName = prompt('Hello! Who are you?')
+    // let message = `<h1>Hello ${userName}</h1>`
+    //// const message = `<h1>Hello ${userName}</h1>` 오류나지 않는다.
+    // document.write(message)
+
+    // Conditionals (조건분기)
+    let message = ''
+    if (userName === '1q2w3e4r') {
+      message = '<h1>This is secret Admin page</h1>'
+    } else if (userName === 'Neo') {
+      message = '<h1>You are from matrix</h1>'
+    } else {
+      message = `<h1>Hello ${userName}</h1>`
+    }
+
+    document.write(message)
+
+    //삼항 연산자(Ternary operator)
+    const number = 10
+    number === 10 ? document.write('number === 10') : document.write('number !== 10')
+  </script>
+</body>
+</html>
