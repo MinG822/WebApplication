@@ -28,3 +28,10 @@ const ssafy = function (name) {
 const square = num => num ** 2
 
 console.log(square(2))
+
+const sayHello = () => 'hello'
+console.log(sayHello())
+
+const sayHello2 = (name='anonymous') => `hello ${name}`
+
+console.log(sayHello2())

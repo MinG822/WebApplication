@@ -11,7 +11,7 @@ let content = ''
 // })
 
 // console.log(content)
-// 비동기적 함수( , function)
+// // 비동기적 함수( , function)
 
 // console.log('끝')
 

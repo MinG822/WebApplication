@@ -90,7 +90,7 @@ console.log(me.appleProducts.ipad)
 
 const jsonData = JSON.stringify({
     coffee: 'Americano',
-    iceCream: 'Cookie and cream',
+    iceCream: {k: 23},
 })
 
 console.log(jsonData)
@@ -246,29 +246,184 @@ console.log(users.filter(user => {
 // exercise
 
 const ladders = [
-    {id: 1, heights: 20},
-    {id: 3, heights: 25},
+    {id: 1, height: 20},
+    {id: 3, height: 25},
 ]
 
 function findWhere(array, criteria) {
     const property = Object.keys(criteria)[0]
     // criteria라는 오브젝트의 키값이 배열로 나오는데 첫번째값을 property에 저장한다.
-    // node의 전역객체는 global
-    // Object.keys(global)
-    /*[
-        'global',
-        'clearInterval',
-        'clearTimeout',
-        'setInterval',
-        'setTimeout',
-        'queueMicrotask',
-        'clearImmediate',
-        'setImmediate'
-        ]
-    */
-    return array.find(temp => {
+    return array.find(function(temp) {
         return temp[property] === criteria[property]
     })
 }
+// node의 전역객체는 global
+// Object.keys(global)
+/*[
+    'global',
+    'clearInterval',
+    'clearTimeout',
+    'setInterval',
+    'setTimeout',
+    'queueMicrotask',
+    'clearImmediate',
+    'setImmediate'
+    ]
+*/
 
-console.log(findWhere(ladders, { height: 20 }))
+console.log(findWhere(ladders, {height:20}))
+
+// every & some
+// every와 some은 기존처럼 대상 배열에서 특정요소를 뽑거나 배열을 return하지않고, 조건에 대해 boolean값을 return한다.
+
+const computers = [
+    { name: 'macbook', ram: 16 },
+    { name: 'gram', ram: 8 },
+    { name: 'series9', ram: 32 },
+]
+
+// (computers[0] >16 ) && (computers[1] >16 ) && (computers[2] >16)
+const everyComputerAvailable = computers.every(computer => {
+    return computer.ram > 16
+})
+
+// (computers[0] >16) || (computers[1]>16) || (computers[2]>16)
+const someComputerAvailable = computers.some(computer => {
+    return computer.ram > 16
+})
+
+console.log(everyComputerAvailable, someComputerAvailable)
+
+// exercise
+const users2 = [
+    { id: 21, hasSubmitted: true},
+    { id: 33, hasSubmitted: false},
+    { id: 712, hasSubmitted: true},
+]
+
+const everySubmitted = users2.every(user => {
+    return user.hasSubmitted
+})
+
+console.log(everySubmitted)
+
+// exercise2
+const requests = [
+    { url: '/photos', status: 'complete'},
+    { url: '/albums', status: 'pending'},
+    { url: '/users', status: 'failed'},
+]
+
+const inProgress = requests.some(temp => {
+    return temp.status === 'pending'
+})
+
+console.log(inProgress)
+
+// Function
+// function 키워드를 통한 정의
+function add(num1, num2) {
+    return num1 + num2
+}
+
+console.log(add(1, 2))
+
+const sub = function(num1, num2) {
+    return num1 - num2
+}
+
+console.log(sub(10, 5))
+console.log(typeof add, typeof sub)
+
+// arrow function 을 통한 정의
+const mul = (num1, num2) => {
+    return num1*num2
+}
+
+// arrow function refactory
+// 일반적으로 함수는 const로 바인딩하지만,
+// 콘솔에서 리팩토링할 때 함수 재할당에러가 날 수 있으니 let으로 선언하는 경우
+// 리팩토링??, 함수 고치는거?
+let square = num => {num**2}
+
+let noArgs = () => 'No args'
+noArgs = _ => 'No args'
+
+let returnObject = () => { return { key: 'value'}}
+// 괄호를 안하면 함수블록으로 인식!
+returnObject = () => ({ket:'value'})
+console.log(returnObject())
+
+//기본인자를 줄 때는 인자 갯수와 상관없이 꼭 괄호를 해야한다.
+// Anonymous function (익명/1회용 함수)
+
+console.log((function (num) { return num**3})(2))
+console.log((num => num**0.5)(4))
+
+// function(){}와 ()=> {}는 문법만 다르고 완전히 똑같이 동작하는 것 처럼 보이지만
+// this 키워드가 등장하게 되면, 둘은 다르게 동작한다. 
+
+
+// 파이썬 친화적인 문법으로 진입장벽을 높이지 않기 위해서 lodash 모듈을 node환경에서 불러와 사용하기
+// lodash 는 파이썬 문법을 포함한 여러 편리한 메서드를 제공하는 모듈
+
+// 메뉴 고르기 (Array)
+const _ = require('lodash')
+const list = ['짜장면', '짬뽕', '볶음밥']
+const pick = _.sample(list)
+console.log(`오늘의 메뉴는 ${pick}입니다.`)
+
+// 사진과 함께 메뉴고르기 (Object)
+
+const object = {
+    짜장면: 'http://recipe1.ezmember.co.kr/cache/recipe/2016/07/02/40c4f639ca973d9acccecdf7cbe0cbc41.jpg',
+    짬뽕: 'http://recipe1.ezmember.co.kr/cache/recipe/2015/08/24/835a29917b3a9f074cb8d1636adeefcf1.jpg',
+    볶음밥: 'http://recipe1.ezmember.co.kr/cache/recipe/2015/08/27/932b0eac49b0f341ee9b91553d84d9b91.jpg',
+}
+
+console.log(object[pick])
+
+// 로또 번호 뽑기 (Python Syntax)
+const numbers4 = _.range(1, 46)
+const pick2 = _.sampleSize(numbers4, 6)
+console.log(pick2)
+console.log(`행운의 번호: ${pick2}`)
+
+// 최소 값 구하기 (Function)
+// 기본함수 && 조건문
+// 함수의 매개변수로 두개의 숫자를 받아 그 중 낮은 수를 반환하는 함수를 만들기
+const getMin = (a, b) => {
+    if (a > b) {
+        return b
+    }
+    return a
+}
+
+const getMin2 = (a, b) => {
+    let min
+// const 는 선언시 초기값이 필요하지만 let은 필요없다.
+    if (a > b) {
+        min = b
+    } else {
+        min = a
+    }
+    return min
+}
+
+console.log(getMin2(2, 5))
+
+// 배열을 받아서 해당 배열에서 가장 낮은 수를 반환하는 함수
+const getMinFromArray = (nums) => {
+    let min = Infinity;
+    // Infinity의 타입은 Infinity이다.
+    // console.log(Infinity)
+    nums.forEach(num =>{
+        if (min > num) {
+            min = num
+        }
+    })
+    return min
+}
+
+console.log(getMinFromArray([1, 2, 3, 4]))
+

@@ -5,7 +5,7 @@
     <title>Dino</title>
     <style>
       .bg {
-        background-color: #f7f7f7;
+        background-color: white;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -25,7 +25,7 @@
     </div>
     <p>피태그</p>
     <script>
-      const dino = document.querySelector('#dino')
+      const dino = document.querySelector('img')
 
       dino.addEventListener('click', event => {
         alert('아야')
@@ -59,9 +59,9 @@
         }
       })
 
-      // document.addEventListener('mousemove', e => {
-      //   console.log(e)
-      // })
+      document.addEventListener('mousemove', e => {
+        console.log(e)
+      })
     </script>
   </body>
 </html>
